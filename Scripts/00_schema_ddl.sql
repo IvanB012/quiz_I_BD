@@ -1,20 +1,22 @@
+-- ============================================================
+-- ISW-522 - Quiz 1 Grupal - Sistema: Restaurante
+-- BD: restaurantcr | Esquema: restaurante
+-- Script: DDL base (8 tablas)
+-- Persona A
+-- ============================================================
 
-// Primer paso, creacion de la base datos
-
-
+-- ----------------------------------------------------------
+-- Paso 1: creacion de la base de datos, extension y esquema
+-- ----------------------------------------------------------
 CREATE DATABASE restaurantcr;
-
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
-
 CREATE SCHEMA IF NOT EXISTS restaurante;
 
+-- ----------------------------------------------------------
+-- Paso 2: creacion de tablas
+-- ----------------------------------------------------------
 
-// Segundo paso, creacion de tablas
-
-// Tabla 1: cliente
-
-
-
+-- Tabla 1: cliente
 CREATE TABLE restaurante.cliente (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre VARCHAR(100) NOT NULL,
@@ -23,11 +25,7 @@ CREATE TABLE restaurante.cliente (
     fecha_registro TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-
-// Tabla 2: mesa
-
-
-
+-- Tabla 2: mesa
 CREATE TABLE restaurante.mesa (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     numero INTEGER NOT NULL UNIQUE,
@@ -36,21 +34,14 @@ CREATE TABLE restaurante.mesa (
     CONSTRAINT chk_mesa_capacidad CHECK (capacidad > 0 AND capacidad <= 20)
 );
 
-
-// Tabla 3: categoria_menu
-
-
-
+-- Tabla 3: categoria_menu
 CREATE TABLE restaurante.categoria_menu (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre VARCHAR(50) NOT NULL UNIQUE,
     descripcion VARCHAR(200)
 );
 
-
-// Tabla 4: empleado
-
-
+-- Tabla 4: empleado
 CREATE TABLE restaurante.empleado (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre VARCHAR(100) NOT NULL,
@@ -60,10 +51,7 @@ CREATE TABLE restaurante.empleado (
     CONSTRAINT chk_empleado_salario CHECK (salario > 0)
 );
 
-
-// Tabla 5
-
-
+-- Tabla 5: plato (depende de categoria_menu)
 CREATE TABLE restaurante.plato (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     categoria_id UUID NOT NULL REFERENCES restaurante.categoria_menu(id) ON DELETE RESTRICT,
@@ -74,11 +62,7 @@ CREATE TABLE restaurante.plato (
     CONSTRAINT chk_plato_precio CHECK (precio > 0)
 );
 
-
-// Tabla 6: pedido (tres FK + tu primer ENUM)
-
-
-
+-- Tabla 6: pedido (tres FK + primer ENUM)
 CREATE TYPE restaurante.estado_pedido AS ENUM ('pendiente', 'en_preparacion', 'servido', 'pagado', 'cancelado');
 
 CREATE TABLE restaurante.pedido (
@@ -91,11 +75,7 @@ CREATE TABLE restaurante.pedido (
     notas_personalizacion JSONB
 );
 
-
-// Tabla 7: detalle_pedido (dos FK)
-
-
-
+-- Tabla 7: detalle_pedido (dos FK)
 CREATE TABLE restaurante.detalle_pedido (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     pedido_id UUID NOT NULL REFERENCES restaurante.pedido(id) ON DELETE CASCADE,
@@ -105,11 +85,7 @@ CREATE TABLE restaurante.detalle_pedido (
     CONSTRAINT chk_detalle_cantidad CHECK (cantidad > 0)
 );
 
-
-//Tabla 8: pago (último ENUM)
-
-
-
+-- Tabla 8: pago (ultimo ENUM)
 CREATE TYPE restaurante.metodo_pago AS ENUM ('efectivo', 'tarjeta', 'sinpe_movil');
 
 CREATE TABLE restaurante.pago (
@@ -122,15 +98,3 @@ CREATE TABLE restaurante.pago (
     CONSTRAINT chk_pago_monto CHECK (monto > 0),
     CONSTRAINT chk_pago_propina CHECK (propina >= 0)
 );
-
-
-
-
-
-
-
-
-
-
-
-
