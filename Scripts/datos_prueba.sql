@@ -4,7 +4,7 @@
 -- Script: datos de prueba (10-15 filas por tabla)
 -- Persona A
 --
--- IMPORTANTE: ejecutar SOLO despues de que 02_ddl_base.sql
+-- IMPORTANTE: ejecutar SOLO despues de que 00_schema_ddl.sql
 -- haya corrido sin errores y las 8 tablas ya existan.
 -- ============================================================
 

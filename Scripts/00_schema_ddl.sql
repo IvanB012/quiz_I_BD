@@ -8,7 +8,7 @@
 -- ----------------------------------------------------------
 -- Paso 1: creacion de la base de datos, extension y esquema
 -- ----------------------------------------------------------
-CREATE DATABASE restaurantcr;
+CREATE DATABASE restaurant_cr;
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 CREATE SCHEMA IF NOT EXISTS restaurante;
 
@@ -74,7 +74,7 @@ CREATE TABLE restaurante.pedido (
     fecha_hora TIMESTAMP NOT NULL DEFAULT NOW(),
     notas_personalizacion JSONB
 );
-
+                                                                                    
 -- Tabla 7: detalle_pedido (dos FK)
 CREATE TABLE restaurante.detalle_pedido (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
